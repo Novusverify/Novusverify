@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVUS — Qualify. Protect. Convert.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #080c12;
+    --paper: #e8edf5;
+    --gold: #3a8fff;
+    --gold-light: #6fb3ff;
+    --slate: #0d1520;
+    --muted: #5a6a82;
+    --rule: rgba(58,143,255,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 48px 64px;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .nav-tag {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .hero-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 40px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    margin-top: 40px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--muted);
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .hero-cta {
+    margin-top: 56px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 16px 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--paper); }
+
+  .hero-footer {
+    display: flex;
+    gap: 64px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.4s;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--gold-light);
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    padding: 120px 64px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 48px;
+  }
+
+  .section-heading em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* ─── PROBLEM ─── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    margin-top: 64px;
+  }
+
+  .problem-card {
+    background: var(--ink);
+    padding: 48px 40px;
+    transition: background 0.3s;
+  }
+  .problem-card:hover { background: #111; }
+
+  .problem-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .problem-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--paper);
+  }
+
+  .problem-body {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .pipeline {
+    margin-top: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pipeline-step {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+  .pipeline-step:last-child { border-bottom: 1px solid var(--rule); }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--rule);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  .step-tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .step-body {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  .step-output {
+    background: var(--slate);
+    padding: 24px 28px;
+    font-size: 11px;
+    line-height: 2;
+  }
+
+  .output-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+  }
+
+  .output-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-green { background: #4caf72; }
+  .dot-red { background: #c0392b; }
+  .dot-amber { background: var(--gold); }
+
+  .output-item strong {
+    color: var(--paper);
+    font-weight: 400;
+  }
+
+  /* ─── OUTCOMES ─── */
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    margin-top: 64px;
+  }
+
+  .outcome-card {
+    background: var(--ink);
+    padding: 56px 40px;
+  }
+
+  .outcome-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .outcome-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+
+  .outcome-body {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  /* ─── WHO IT'S FOR ─── */
+  .verticals {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .vertical {
+    border: 1px solid var(--rule);
+    padding: 36px 32px;
+    transition: border-color 0.3s;
+    cursor: default;
+  }
+  .vertical:hover { border-color: var(--gold); }
+
+  .vertical-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  .vertical-body {
+    font-size: 11px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  /* ─── CLOSE ─── */
+  .close-section {
+    text-align: center;
+    padding: 140px 64px;
+    background: linear-gradient(to bottom, var(--ink), #0f0e0c);
+  }
+
+  .close-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 32px;
+  }
+
+  .close-heading em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .close-sub {
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 56px;
+    line-height: 1.9;
+  }
+
+  .close-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .divider-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 0 auto 80px;
+    opacity: 0.4;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 40px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--rule);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-note {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero, section { padding: 64px 28px; }
+    .hero-footer { gap: 32px; flex-wrap: wrap; }
+    .problem-grid, .outcomes-grid, .verticals { grid-template-columns: 1fr; }
+    .pipeline-step { grid-template-columns: 48px 1fr; }
+    .step-output { display: none; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <nav class="nav">
+    <div>
+      <div class="logo">NOVUS</div>
+      <div class="logo-sub">by Novus Verify</div>
+    </div>
+    <div class="nav-tag">
+      AI-Powered Lead Qualification<br>
+      High-Volume · High-Ticket
+    </div>
+  </nav>
+
+  <div class="hero-center">
+    <p class="eyebrow">The Industry Standard in Lead Triage</p>
+    <h1 class="hero-headline">
+      Your best leads deserve<br>your <em>undivided</em> attention.
+    </h1>
+    <p class="hero-sub">
+      NOVUS screens every inbound lead before it reaches your team — so your closers spend 100% of their time on qualified, ready-to-buy prospects.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+      <button class="btn-ghost" onclick="document.getElementById('close').scrollIntoView({behavior:'smooth'})">Request a Demo →</button>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Decision States</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">&lt;2s</span>
+      <span class="stat-label">Triage Time</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Zero</span>
+      <span class="stat-label">AI Guesswork</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Logged & Auditable</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section>
+  <p class="section-label reveal">The Problem</p>
+  <h2 class="section-heading reveal">
+    High-ticket pipelines<br>leak revenue <em>silently.</em>
+  </h2>
+
+  <div class="problem-grid">
+    <div class="problem-card reveal">
+      <div class="problem-icon">⏱</div>
+      <h3 class="problem-title">Wasted Sales Hours</h3>
+      <p class="problem-body">Your closers spend 40–60% of their day on leads that were never going to convert. Every unqualified call is a real opportunity missed.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">🚫</div>
+      <h3 class="problem-title">Undetected Bad Actors</h3>
+      <p class="problem-body">Fraudulent inquiries, prompt injection attempts, and low-intent submissions slip through manual review — costing time and exposing your data.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">📉</div>
+      <h3 class="problem-title">Inconsistent Triage</h3>
+      <p class="problem-body">Human review is subjective. What passes on Monday gets flagged on Friday. Your qualification standard should be a system, not a mood.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">🔍</div>
+      <h3 class="problem-title">No Audit Trail</h3>
+      <p class="problem-body">When a bad lead slips through or a good one gets blocked, you have no record of why. You can't improve what you can't measure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how">
+  <p class="section-label reveal">The System</p>
+  <h2 class="section-heading reveal">
+    A deterministic engine.<br>Three <em>definitive</em> outcomes.
+  </h2>
+  <p class="reveal" style="font-size:13px; color:var(--muted); max-width:520px; line-height:1.9; margin-bottom:8px;">
+    NOVUS uses a rule-based decision engine — not AI inference — to evaluate every submission against a fixed qualification standard. The result is consistent, explainable, and auditable every single time.
+  </p>
+
+  <div class="pipeline">
+
+    <div class="pipeline-step reveal">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-tag">Intake</div>
+        <h3 class="step-title">Structured Lead Intake</h3>
+        <p class="step-body">Every inbound lead answers six targeted qualification questions through NOVUS's intake flow — your fixed contract with every prospect. No freeform noise. Only signal.</p>
+      </div>
+      <div class="step-output">
+        <div class="output-item"><span class="output-dot dot-amber"></span>Budget range confirmed</div>
+        <div class="output-item"><span class="output-dot dot-amber"></span>Timeline established</div>
+        <div class="output-item"><span class="output-dot dot-amber"></span>Decision-maker identified</div>
+        <div class="output-item"><span class="output-dot dot-amber"></span>Intent signal captured</div>
+      </div>
+    </div>
+
+    <div class="pipeline-step reveal">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-tag">Analysis</div>
+        <h3 class="step-title">PII & Threat Detection</h3>
+        <p class="step-body">NOVUS automatically scans each submission for sensitive PII exposure, prompt injection attempts, and risk flag patterns before any human eyes touch the lead.</p>
+      </div>
+      <div class="step-output">
+        <div class="output-item"><span class="output-dot dot-red"></span>PII flagged for review</div>
+        <div class="output-item"><span class="output-dot dot-red"></span>Injection attempt blocked</div>
+        <div class="output-item"><span class="output-dot dot-green"></span>Clean submission</div>
+        <div class="output-item"><span class="output-dot dot-amber"></span>Risk flag escalated</div>
+      </div>
+    </div>
+
+    <div class="pipeline-step reveal">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-tag">Decision</div>
+        <h3 class="step-title">Rule-Based Verdict</h3>
+        <p class="step-body">The decision engine applies your qualification criteria with zero subjectivity. No LLM inference. No hallucinations. A precise, deterministic verdict — every time.</p>
+      </div>
+      <div class="step-output">
+        <div class="output-item"><span class="output-dot dot-green"></span><strong>ALLOW</strong> — Route to sales floor</div>
+        <div class="output-item"><span class="output-dot dot-red"></span><strong>BLOCK</strong> — Remove from pipeline</div>
+        <div class="output-item"><span class="output-dot dot-amber"></span><strong>ESCALATE</strong> — Human review queue</div>
+      </div>
+    </div>
+
+    <div class="pipeline-step reveal">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-tag">Logging</div>
+        <h3 class="step-title">Full Audit Trail</h3>
+        <p class="step-body">Every submission, verdict, and action taken is logged to your Airtable instance in real time. Your pipeline becomes a living dataset you can analyze, refine, and defend.</p>
+      </div>
+      <div class="step-output">
+        <div class="output-item"><span class="output-dot dot-green"></span>Submission timestamped</div>
+        <div class="output-item"><span class="output-dot dot-green"></span>Decision reason recorded</div>
+        <div class="output-item"><span class="output-dot dot-green"></span>Risk flags catalogued</div>
+        <div class="output-item"><span class="output-dot dot-green"></span>GDPR data flow tracked</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── OUTCOMES ─── -->
+<section>
+  <p class="section-label reveal">The Impact</p>
+  <h2 class="section-heading reveal">
+    What happens when your<br>pipeline <em>can't be gamed.</em>
+  </h2>
+
+  <div class="outcomes-grid">
+    <div class="outcome-card reveal">
+      <div class="outcome-num">↑3×</div>
+      <div class="outcome-title">Closer Productivity</div>
+      <p class="outcome-body">When every call is pre-qualified, your team's closing rate improves dramatically. Same headcount. Significantly more revenue.</p>
+    </div>
+    <div class="outcome-card reveal">
+      <div class="outcome-num">0</div>
+      <div class="outcome-title">Subjective Decisions</div>
+      <p class="outcome-body">NOVUS applies the same standard to every submission, every time. No bad days. No rogue calls. Complete consistency at scale.</p>
+    </div>
+    <div class="outcome-card reveal">
+      <div class="outcome-num">100%</div>
+      <div class="outcome-title">Pipeline Visibility</div>
+      <p class="outcome-body">Every decision is logged with full context. You always know exactly what came in, what was blocked, and why — across the entire funnel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHO IT'S FOR ─── -->
+<section>
+  <p class="section-label reveal">Designed For</p>
+  <h2 class="section-heading reveal">
+    Built for businesses where<br>every lead has <em>real stakes.</em>
+  </h2>
+
+  <div class="verticals">
+    <div class="vertical reveal">
+      <h3 class="vertical-name">Law Firms</h3>
+      <p class="vertical-body">Triage case inquiries by practice area fit, jurisdiction, case value, and intake risk — before your attorneys spend a minute on the phone.</p>
+    </div>
+    <div class="vertical reveal">
+      <h3 class="vertical-name">Real Estate</h3>
+      <p class="vertical-body">Qualify buyers and sellers by budget, timeline, and intent signal. Only serious principals reach your agents.</p>
+    </div>
+    <div class="vertical reveal">
+      <h3 class="vertical-name">High-Ticket Sales</h3>
+      <p class="vertical-body">Filter your inbound funnel for decision-makers, budget-qualified prospects, and genuine buying intent. Protect your team's most valuable resource: time.</p>
+    </div>
+    <div class="vertical reveal">
+      <h3 class="vertical-name">Consulting & Advisory</h3>
+      <p class="vertical-body">Pre-qualify project fit, scope, and client readiness before a discovery call is ever booked.</p>
+    </div>
+    <div class="vertical reveal">
+      <h3 class="vertical-name">Financial Services</h3>
+      <p class="vertical-body">Screen for investor accreditation signals, risk appetite, and engagement intent with a fully auditable, compliant intake trail.</p>
+    </div>
+    <div class="vertical reveal">
+      <h3 class="vertical-name">Healthcare & Med Spa</h3>
+      <p class="vertical-body">Qualify procedure inquiries, filter non-serious consultations, and protect your staff from high-volume unqualified volume.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CLOSE ─── -->
+<section class="close-section" id="close">
+  <div class="divider-line"></div>
+  <h2 class="close-heading reveal">
+    Your pipeline should be<br><em>unbreakable.</em>
+  </h2>
+  <p class="close-sub reveal">
+    NOVUS is built for the long run — a foundation, not a quick fix. See how a deterministic qualification system transforms your revenue operation.
+  </p>
+  <div class="close-btns reveal">
+    <button class="btn-primary">Request a Pilot Demo</button>
+    <button class="btn-ghost">Download the One-Pager →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">NOVUS</div>
+  <div class="footer-note">© 2026 Novus Verify · Qualify. Protect. Convert.</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
