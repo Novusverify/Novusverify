@@ -345,11 +345,23 @@
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  function handleNotify() {
+  async function handleNotify() {
     const input = document.getElementById('emailInput');
     const confirm = document.getElementById('confirm');
-    if (input.value && input.value.includes('@')) {
+    if (!input.value || !input.value.includes('@')) {
+      input.style.borderColor = 'rgba(255,80,80,0.4)';
+      setTimeout(() => input.style.borderColor = '', 1000);
+      return;
+    }
+    try {
+      await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: input.value })
+      });
       input.parentElement.style.display = 'none';
       confirm.style.display = 'block';
-    } else {
-      input.style.borderColor = 
+    } catch(err) {
+      console.error(err);
+    }
+  }
