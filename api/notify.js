@@ -13,20 +13,22 @@ module.exports = async function handler(req, res) {
 
   try {
     // Log to Airtable
-    await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields: {
-          'Email': email,
-          'Submitted At': new Date().toISOString(),
-          'Source': 'novusverify.com'
-        }
-      })
-    });
+const airtableRes = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    fields: {
+      'Email': email,
+      'Submitted At': new Date().toISOString(),
+      'Source': 'novusverify.com'
+    }
+  })
+});
+const airtableData = await airtableRes.json();
+console.log('Airtable response:', JSON.stringify(airtableData));
 
     // Notify you
     await resend.emails.send({
