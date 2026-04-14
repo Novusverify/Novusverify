@@ -326,7 +326,7 @@
     <div style="display:flex; flex-direction:column; align-items:center;">
       <div class="notify">
         <input type="email" placeholder="your@email.com" id="emailInput" />
-        <button onclick="handleNotify()">Notify Me</button>
+        <<button id="notifyBtn">Notify Me</button>
       </div>
       <p class="notify-confirm" id="confirm">✓ You're on the list.</p>
     </div>
@@ -345,23 +345,31 @@
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  async function handleNotify() {
+  document.getElementById('notifyBtn').addEventListener('click', async function() {
     const input = document.getElementById('emailInput');
     const confirm = document.getElementById('confirm');
+    
     if (!input.value || !input.value.includes('@')) {
       input.style.borderColor = 'rgba(255,80,80,0.4)';
       setTimeout(() => input.style.borderColor = '', 1000);
       return;
     }
+
     try {
-      await fetch('/api/notify', {
+      const res = await fetch('/api/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: input.value })
       });
-      input.parentElement.style.display = 'none';
-      confirm.style.display = 'block';
+      if (res.ok) {
+        input.parentElement.style.display = 'none';
+        confirm.style.display = 'block';
+      }
     } catch(err) {
       console.error(err);
     }
-  }
+});
+
+document.getElementById('emailInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('notifyBtn').click();
+});
