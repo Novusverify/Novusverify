@@ -14,9 +14,7 @@
     --muted: #3d5170;
     --rule: rgba(58,143,255,0.15);
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body {
     min-height: 100%;
     background: var(--ink);
@@ -25,8 +23,6 @@
     font-weight: 300;
     overflow-x: hidden;
   }
-
-  /* GRAIN */
   body::before {
     content: '';
     position: fixed;
@@ -36,8 +32,6 @@
     z-index: 10;
     opacity: 0.5;
   }
-
-  /* GLOW */
   body::after {
     content: '';
     position: fixed;
@@ -50,8 +44,6 @@
     pointer-events: none;
     z-index: 0;
   }
-
-  /* GRID LINES */
   .grid {
     position: fixed;
     inset: 0;
@@ -61,7 +53,6 @@
     background-size: 80px 80px;
     z-index: 0;
   }
-
   .container {
     position: relative;
     z-index: 2;
@@ -70,8 +61,6 @@
     grid-template-rows: auto 1fr auto;
     padding: 40px 56px;
   }
-
-  /* NAV */
   .nav {
     display: flex;
     justify-content: space-between;
@@ -79,7 +68,6 @@
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.3s;
   }
-
   .logo {
     font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
@@ -87,7 +75,6 @@
     letter-spacing: 0.2em;
     color: var(--blue);
   }
-
   .logo-sub {
     font-size: 9px;
     letter-spacing: 0.3em;
@@ -95,7 +82,6 @@
     text-transform: uppercase;
     margin-top: 5px;
   }
-
   .nav-right {
     font-size: 9px;
     letter-spacing: 0.25em;
@@ -104,17 +90,14 @@
     text-align: right;
     line-height: 2;
   }
-
-  /* CENTER */
   .center {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 0;
+    padding: 60px 0;
   }
-
   .eyebrow {
     font-size: 9px;
     letter-spacing: 0.5em;
@@ -124,7 +107,6 @@
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.6s;
   }
-
   .headline {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(56px, 10vw, 130px);
@@ -134,12 +116,10 @@
     opacity: 0;
     animation: fadeUp 1s ease forwards 0.8s;
   }
-
   .headline em {
     font-style: italic;
     color: var(--blue-light);
   }
-
   .divider {
     width: 1px;
     height: 60px;
@@ -148,7 +128,6 @@
     opacity: 0;
     animation: fadeIn 1s ease forwards 1.2s;
   }
-
   .tagline {
     font-size: 11px;
     letter-spacing: 0.3em;
@@ -158,21 +137,21 @@
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 1.4s;
   }
-
-  .tagline span {
-    color: var(--paper);
-  }
-
-  /* NOTIFY */
-  .notify {
+  .tagline span { color: var(--paper); }
+  .notify-wrap {
     margin-top: 48px;
     display: flex;
-    gap: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 1.6s;
   }
-
-  .notify input {
+  .notify-row {
+    display: flex;
+    gap: 0;
+  }
+  .notify-row input {
     background: rgba(58,143,255,0.05);
     border: 1px solid var(--rule);
     border-right: none;
@@ -185,10 +164,9 @@
     letter-spacing: 0.05em;
     transition: border-color 0.3s;
   }
-  .notify input::placeholder { color: var(--muted); }
-  .notify input:focus { border-color: rgba(58,143,255,0.4); }
-
-  .notify button {
+  .notify-row input::placeholder { color: var(--muted); }
+  .notify-row input:focus { border-color: rgba(58,143,255,0.4); }
+  .notify-row button {
     background: var(--blue);
     border: none;
     padding: 14px 28px;
@@ -201,27 +179,22 @@
     transition: background 0.2s;
     white-space: nowrap;
   }
-  .notify button:hover { background: var(--blue-light); }
-
+  .notify-row button:hover { background: var(--blue-light); }
   .notify-confirm {
     display: none;
     font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--blue-light);
     text-transform: uppercase;
-    margin-top: 16px;
-    text-align: center;
   }
-
-  /* FOOTER */
   .footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    padding-top: 40px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 1.8s;
   }
-
   .footer-left {
     font-size: 9px;
     letter-spacing: 0.2em;
@@ -229,7 +202,6 @@
     text-transform: uppercase;
     line-height: 2;
   }
-
   .footer-right {
     font-size: 9px;
     letter-spacing: 0.2em;
@@ -237,13 +209,7 @@
     text-transform: uppercase;
     text-align: right;
   }
-
-  .footer-right a {
-    color: var(--blue);
-    text-decoration: none;
-  }
-
-  /* CORNER ACCENTS */
+  .footer-right a { color: var(--blue); text-decoration: none; }
   .corner {
     position: fixed;
     width: 24px;
@@ -255,8 +221,6 @@
   .corner-tr { top: 24px; right: 24px; border-top: 1px solid var(--blue); border-right: 1px solid var(--blue); }
   .corner-bl { bottom: 24px; left: 24px; border-bottom: 1px solid var(--blue); border-left: 1px solid var(--blue); }
   .corner-br { bottom: 24px; right: 24px; border-bottom: 1px solid var(--blue); border-right: 1px solid var(--blue); }
-
-  /* SCAN LINE */
   .scanline {
     position: fixed;
     left: 0;
@@ -266,25 +230,21 @@
     animation: scan 8s linear infinite;
     z-index: 1;
   }
-
   @keyframes scan {
     0%   { top: -1px; }
     100% { top: 100vh; }
   }
-
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
   @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-
   @media (max-width: 600px) {
     .container { padding: 28px 24px; }
-    .notify input { width: 180px; }
+    .notify-row input { width: 180px; }
     .footer { flex-direction: column; gap: 8px; align-items: center; text-align: center; }
   }
 </style>
@@ -299,7 +259,6 @@
 <div class="corner corner-br"></div>
 
 <div class="container">
-
   <nav class="nav">
     <div>
       <div class="logo">NOVUS</div>
@@ -323,58 +282,58 @@
       novusverify.com
     </p>
 
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div class="notify">
-        <input type="email" placeholder="your@email.com" id="emailInput" />
-        <<button id="notifyBtn">Notify Me</button>
+    <div class="notify-wrap">
+      <div class="notify-row" id="notifyRow">
+        <input type="email" id="emailInput" placeholder="your@email.com" />
+        <button id="notifyBtn">Notify Me</button>
       </div>
-      <p class="notify-confirm" id="confirm">✓ You're on the list.</p>
+      <p class="notify-confirm" id="confirm">&#10003; You're on the list.</p>
     </div>
   </div>
 
   <footer class="footer">
     <div class="footer-left">
-      © 2026 Novus Verify<br>
+      &copy; 2026 Novus Verify<br>
       All rights reserved
     </div>
     <div class="footer-right">
-      <a href="/cdn-cgi/l/email-protection#c5ada0a9a9aa85abaab3b0b6b3a0b7aca3bceba6aaa8"><span class="__cf_email__" data-cfemail="f59d9099999ab59b9a8380868390879c938cdb969a98">[email&#160;protected]</span></a>
+      <a href="mailto:hello@novusverify.com">hello@novusverify.com</a>
     </div>
   </footer>
-
 </div>
 
-</div>
+<script>
+window.addEventListener('load', function() {
+  var btn = document.getElementById('notifyBtn');
+  var input = document.getElementById('emailInput');
+  var confirm = document.getElementById('confirm');
+  var row = document.getElementById('notifyRow');
 
-  <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('notifyBtn').addEventListener('click', async function() {
-    const input = document.getElementById('emailInput');
-    const confirm = document.getElementById('confirm');
-    
-    if (!input.value || !input.value.includes('@')) {
+  function submitEmail() {
+    var email = input.value;
+    if (!email || email.indexOf('@') === -1) {
       input.style.borderColor = 'rgba(255,80,80,0.4)';
-      setTimeout(() => input.style.borderColor = '', 1000);
+      setTimeout(function() { input.style.borderColor = ''; }, 1000);
       return;
     }
-
-    try {
-      const res = await fetch('/api/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: input.value })
-      });
-      if (res.ok) {
-        input.parentElement.style.display = 'none';
-        confirm.style.display = 'block';
-      }
-    } catch(err) {
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    }).then(function() {
+      row.style.display = 'none';
+      confirm.style.display = 'block';
+    }).catch(function(err) {
       console.error(err);
-    }
-  });
+    });
+  }
 
-  document.getElementById('emailInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') document.getElementById('notifyBtn').click();
+  btn.addEventListener('click', submitEmail);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitEmail();
   });
 });
 </script>
+
+</body>
+</html>
