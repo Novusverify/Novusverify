@@ -344,7 +344,10 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+</div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('notifyBtn').addEventListener('click', async function() {
     const input = document.getElementById('emailInput');
     const confirm = document.getElementById('confirm');
@@ -368,8 +371,10 @@
     } catch(err) {
       console.error(err);
     }
-});
+  });
 
-document.getElementById('emailInput').addEventListener('keydown', function(e) {
+  document.getElementById('emailInput').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') document.getElementById('notifyBtn').click();
+  });
 });
+</script>
