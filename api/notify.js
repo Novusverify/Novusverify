@@ -1,6 +1,9 @@
 const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const AIRTABLE_TOKEN = process.env.AIRTABLE_API_KEY;
+const BASE_ID = 'appR1m6YjF4I5hTQB';
+const TABLE_NAME = 'Waitlist';
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -9,6 +12,23 @@ module.exports = async function handler(req, res) {
   if (!email) return res.status(400).json({ error: 'Email required' });
 
   try {
+    // Log to Airtable
+    await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          'Email': email,
+          'Submitted At': new Date().toISOString(),
+          'Source': 'novusverify.com'
+        }
+      })
+    });
+
+    // Notify you
     await resend.emails.send({
       from: 'NOVUS <onboarding@resend.dev>',
       to: 'jovan@novusverify.com',
@@ -16,6 +36,7 @@ module.exports = async function handler(req, res) {
       html: `<p>New signup: <strong>${email}</strong></p>`
     });
 
+    // Confirm to them
     await resend.emails.send({
       from: 'NOVUS <onboarding@resend.dev>',
       to: email,
